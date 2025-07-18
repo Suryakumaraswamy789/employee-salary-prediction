@@ -47,7 +47,7 @@ if uploaded_file is not None:
     st.write("Predictions:")
     st.write(batch_preds)
     # Batch predictions as downloadable CSV
-     batch_preds_df = pd.DataFrame(batch_preds, columns=['Predicted Salary Class'])
+    batch_preds_df = pd.DataFrame(batch_preds, columns=['Predicted Salary Class'])
     st.write(batch_preds_df)
 
     csv = batch_preds_df.to_csv(index=False).encode('utf-8')
