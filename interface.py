@@ -6,7 +6,7 @@ st.set_page_config(page_title="Employee Salary Prediction",page_icon="",layout="
 st.title("employee Salary Prediction App")
 st.markdown("predict wheatheran employee earn >50k or <50k based on input feature")
 st.sidebar.header("Input Employee Details")
-age=st.sidebar.selectbox("Age",18,58,30)
+age = st.sidebar.selectbox("Age", list(range(18, 59)), index=12)
 education=st.sidebar.selectbox("Education Level",['Bachelor','Masters','Phd','HS-grad','Assoc','some-college'])
 occupation=st.sidebar.selectbox("JobRole",['Tech-Support','Craft-repair','Other-service',"Sales",
     "Exec-managerial", "Prof-specialty", "Handlers-cleaners", "Machine-op-inspct",
