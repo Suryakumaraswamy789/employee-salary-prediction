@@ -8,7 +8,7 @@ st.markdown("predict wheatheran employee earn >50k or <50k based on input featur
 st.sidebar.header("Input Employee Details")
 age=st.sidebar.selectbox("Age",18,58,30)
 education=st.sidebar.selectbox("Education Level",['Bachelor','Masters','Phd','HS-grad','Assoc','some-college'])
-occupation=st.sidebar.selectbox("JobRole",{'Tech-Support','Craft-repair','Other-service',"Sales",
+occupation=st.sidebar.selectbox("JobRole",['Tech-Support','Craft-repair','Other-service',"Sales",
     "Exec-managerial", "Prof-specialty", "Handlers-cleaners", "Machine-op-inspct",
     "Adm-clerical", "Farming-fishing", "Transport-moving", "Priv-house-serv",
     "Protective-serv", "Armed-Forces"
