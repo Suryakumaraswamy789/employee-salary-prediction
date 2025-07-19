@@ -7,22 +7,22 @@ st.title("employee Salary Prediction App")
 st.markdown("predict wheatheran employee earn >50k or <50k based on input feature")
 st.sidebar.header("Input Employee Details")
 age = st.sidebar.selectbox("Age", list(range(18, 59)), index=12)
-education=st.sidebar.selectbox("Education Level",['Bachelor','Masters','Phd','HS-grad','Assoc','some-college'])
+education-num=st.sidebar.selectbox("Education Level",['Bachelor','Masters','Phd','HS-grad','Assoc','some-college'])
 occupation=st.sidebar.selectbox("JobRole",['Tech-Support','Craft-repair','Other-service',"Sales",
     "Exec-managerial", "Prof-specialty", "Handlers-cleaners", "Machine-op-inspct",
     "Adm-clerical", "Farming-fishing", "Transport-moving", "Priv-house-serv",
     "Protective-serv", "Armed-Forces"
 ])
-hours_per_week=st.sidebar.slider("Hours per weeek",1,86,40)
-experience = st.sidebar.slider("Years of Experience:", 0, 40, 5)
+hours-per-week=st.sidebar.slider("Hours per week",1,86,40)
+workclass = st.sidebar.slider("Years of Experience:", 0, 40, 5)
 
 # Build input DataFrame (must match preprocessing of your training data)
 input_df = pd.DataFrame({
     'age': [age],
-    'educational-num': [education],
+    'educational-num': [education-num],
     'occupation': [occupation],
     'hours-per-week': [hours_per_week],
-    'experience': [experience]
+    'experience': [workclass]
 })
 st.write("## Input Data")
 st.write(input_df)
