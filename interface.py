@@ -19,7 +19,7 @@ experience = st.sidebar.slider("Years of Experience:", 0, 40, 5)
 # Build input DataFrame (must match preprocessing of your training data)
 input_df = pd.DataFrame({
     'age': [age],
-    'education': [education],
+    'education_level': [education],
     'occupation': [occupation],
     'hours_per_week': [hours_per_week],
     'experience': [experience]
