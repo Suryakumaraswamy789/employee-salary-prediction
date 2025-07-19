@@ -10,11 +10,7 @@ st.markdown("predict wheatheran employee earn >50k or <50k based on input featur
 st.sidebar.header("Input Employee Details")
 age = st.sidebar.selectbox("Age", list(range(18, 59)), index=12)
 education_num= st.sidebar.selectbox("Eduction level", list(range(0, 95)), index=12)
-occupation=st.sidebar.selectbox("JobRole",['Tech-Support','Craft-repair','Other-service',"Sales",
-    "Exec-managerial", "Prof-specialty", "Handlers-cleaners", "Machine-op-inspct",
-    "Adm-clerical", "Farming-fishing", "Transport-moving", "Priv-house-serv",
-    "Protective-serv", "Armed-Forces"
-])
+gender=st.sidebar.selectbox("gender",list(range(0,1)),index=0)
 hours_per_week=st.sidebar.slider("Hours per week",1,86,40)
 workclass = st.sidebar.slider("Years of Experience:", 0, 40, 5)
 
@@ -22,7 +18,7 @@ workclass = st.sidebar.slider("Years of Experience:", 0, 40, 5)
 input_df = pd.DataFrame({
     'age': [age],
     'educational-num': [education_num],
-    'occupation': [occupation],
+    'occupation': [gender],
     'hours-per-week': [hours_per_week],
     'experience': [workclass]
 })
