@@ -9,7 +9,7 @@ st.title("employee Salary Prediction App")
 st.markdown("predict wheatheran employee earn >50k or <50k based on input feature")
 st.sidebar.header("Input Employee Details")
 age = st.sidebar.selectbox("Age", list(range(18, 59)), index=12)
-education_num=st.sidebar.selectbox("Education Level",['Bachelor','Masters','Phd','HS-grad','Assoc','some-college'])
+education_num= st.sidebar.selectbox("Eduction level", list(range(0, 95)), index=12)
 occupation=st.sidebar.selectbox("JobRole",['Tech-Support','Craft-repair','Other-service',"Sales",
     "Exec-managerial", "Prof-specialty", "Handlers-cleaners", "Machine-op-inspct",
     "Adm-clerical", "Farming-fishing", "Transport-moving", "Priv-house-serv",
