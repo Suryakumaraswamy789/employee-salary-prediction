@@ -2,5 +2,5 @@ streamlit
 pandas
 scikit-learn
 joblib
-pipeline
-standardscaler
+Pipeline
+StandardScaler
