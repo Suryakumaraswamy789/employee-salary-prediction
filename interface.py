@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import joblib
 import cloudpickle
-with open("best_model.pkl", "rb") as f:
+with open("best_model.pkl(2)", "rb") as f:
     model = cloudpickle.load(f)
 st.set_page_config(page_title="Employee Salary Prediction",page_icon="",layout="centered")
 st.title("employee Salary Prediction App")
