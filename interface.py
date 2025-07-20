@@ -2,7 +2,8 @@ import streamlit as st
 import pandas as pd
 import joblib
 import cloudpickle
-model =joblib.load('salary_model.pkl')
+with open('salary_model.pkl','rb') as f:
+    model =cloudpickle.load(f)
 st.set_page_config(page_title="Employee Salary Prediction",page_icon="",layout="centered")
 st.title("employee Salary Prediction App")
 st.markdown("predict wheatheran employee earn >50k or <50k based on input feature")
