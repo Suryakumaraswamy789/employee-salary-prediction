@@ -3,7 +3,7 @@ import pandas as pd
 import joblib
 import cloudpickle
 
-    model = cloudpickle.load(best_model(2))
+    model = cloudpickle.load(best_model(2).pkl)
 st.set_page_config(page_title="Employee Salary Prediction",page_icon="",layout="centered")
 st.title("employee Salary Prediction App")
 st.markdown("predict wheatheran employee earn >50k or <50k based on input feature")
