@@ -4,6 +4,8 @@ import joblib
 import cloudpickle
 with open('salary_model.pkl','rb') as f:
     model =cloudpickle.load(f)
+    print(type(model))
+    print(dir(model))
 st.set_page_config(page_title="Employee Salary Prediction",page_icon="",layout="centered")
 st.title("employee Salary Prediction App")
 st.markdown("predict wheatheran employee earn >50k or <50k based on input feature")
