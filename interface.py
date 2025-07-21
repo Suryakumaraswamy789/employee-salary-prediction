@@ -1,75 +1,54 @@
 import streamlit as st
 import pandas as pd
 import joblib
-
-# Load model and encoders
 import cloudpickle
 with open('salary_model.pkl','rb') as f:
     model =cloudpickle.load(f)
-workclass_encoder = joblib.load("workclass_encoder.pkl")
-marital_encoder = joblib.load("marital_encoder.pkl")
-occupation_encoder = joblib.load("occupation_encoder.pkl")
-relationship_encoder = joblib.load("relationship_encoder.pkl")
-race_encoder = joblib.load("race_encoder.pkl")
-gender_encoder = joblib.load("gender_encoder.pkl")
-country_encoder = joblib.load("country_encoder.pkl")
-
-st.set_page_config(page_title="Employee Salary Prediction", page_icon="💼", layout="centered")
-st.title("💼 Employee Salary Prediction App")
-
-# Sidebar inputs
+print(type(model))
+print(dir(model))
+st.set_page_config(page_title="Employee Salary Prediction",page_icon="",layout="centered")
+st.title("employee Salary Prediction App")
+st.markdown("predict wheatheran employee earn >50k or <50k based on input feature")
 st.sidebar.header("Input Employee Details")
+age = st.sidebar.selectbox("Age", list(range(18, 59)), index=12)
+education_num= st.sidebar.selectbox("Eduction level", list(range(0, 95)), index=12)
+gender=st.sidebar.selectbox("gender",list(range(0,1)),index=0)
+hours_per_week=st.sidebar.slider("Hours per week",1,86,40)
+workclass = st.sidebar.slider("Years of Experience:", 0, 40, 5)
 
-age = st.sidebar.slider("Age", 18, 65, 30)
-fnlwgt = st.sidebar.number_input("Final Weight (fnlwgt)", min_value=10000, max_value=1000000, value=200000)
-
-workclass = st.sidebar.selectbox("Workclass", list(workclass_encoder.classes_))
-education = st.sidebar.selectbox("Education Level", [
-    "Bachelors", "Masters", "PhD", "HS-grad", "Assoc", "Some-college"
-])
-marital_status = st.sidebar.selectbox("Marital Status", list(marital_encoder.classes_))
-occupation = st.sidebar.selectbox("Occupation", list(occupation_encoder.classes_))
-relationship = st.sidebar.selectbox("Relationship", list(relationship_encoder.classes_))
-race = st.sidebar.selectbox("Race", list(race_encoder.classes_))
-gender = st.sidebar.selectbox("Gender", list(gender_encoder.classes_))
-capital_gain = st.sidebar.number_input("Capital Gain", value=0)
-capital_loss = st.sidebar.number_input("Capital Loss", value=0)
-hours_per_week = st.sidebar.slider("Hours per Week", 1, 80, 40)
-native_country = st.sidebar.selectbox("Native Country", list(country_encoder.classes_))
-
-# Encode categorical inputs
-education_mapping = {
-    "Bachelors": 13,
-    "Masters": 14,
-    "PhD": 16,
-    "HS-grad": 9,
-    "Assoc": 12,
-    "Some-college": 10
-}
-educational_num = education_mapping[education]
-
-# Create input dataframe with all 13 required features
-input_data = pd.DataFrame({
+# Build input DataFrame (must match preprocessing of your training data)
+input_df = pd.DataFrame({
     'age': [age],
-    'workclass': [workclass_encoder.transform([workclass])[0]],
-    'fnlwgt': [fnlwgt],
-    'educational-num': [educational_num],
-    'marital-status': [marital_encoder.transform([marital_status])[0]],
-    'occupation': [occupation_encoder.transform([occupation])[0]],
-    'relationship': [relationship_encoder.transform([relationship])[0]],
-    'race': [race_encoder.transform([race])[0]],
-    'gender': [gender_encoder.transform([gender])[0]],
-    'capital-gain': [capital_gain],
-    'capital-loss': [capital_loss],
+    'educational-num': [education_num],
+    'occupation': [gender],
     'hours-per-week': [hours_per_week],
-    'native-country': [country_encoder.transform([native_country])[0]],
+    'experience': [workclass]
 })
+st.write("## Input Data")
+st.write(input_df)
 
-# Display the input data
-st.write("### Input Data")
-st.dataframe(input_data)
-
-# Prediction
+# Predict button
 if st.button("Predict Salary Class"):
-    prediction = model.predict(input_data)
-    st.success(f"🧠 Prediction: {prediction[0]}")
+    prediction = model.predict(input_df)
+    st.success(f'Prediction: {prediction[0]}')
+
+# Batch prediction
+st.markdown("### Batch Prediction")
+st.markdown("Upload a CSV file for batch prediction:")
+uploaded_file = st.file_uploader("Upload a CSV file for batch prediction", type=['csv'])
+
+if uploaded_file is not None:
+    batch_data = pd.read_csv(uploaded_file)
+    st.write("Uploaded data preview:")
+    st.write(batch_data)
+    
+    batch_preds = model.predict(batch_data)
+    batch_preds = [str(pred) for pred in batch_preds]
+    st.write("Predictions:")
+    st.write(batch_preds)
+    # Batch predictions as downloadable CSV
+    batch_preds_df = pd.DataFrame(batch_preds, columns=['Predicted Salary Class'])
+    st.write(batch_preds_df)
+
+    csv = batch_preds_df.to_csv(index=False).encode('utf-8')
+    st.download_button('Download Predictions CSV', csv, file_name='predicted_classes.csv', mime='text/csv')
