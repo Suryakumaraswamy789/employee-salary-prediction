@@ -3,7 +3,7 @@ import pandas as pd
 import joblib
 
 # Load model and encoders
-model = joblib.load("best_model.pkl")
+model = joblib.load("salary_model.pkl")
 workclass_encoder = joblib.load("workclass_encoder.pkl")
 marital_encoder = joblib.load("marital_encoder.pkl")
 occupation_encoder = joblib.load("occupation_encoder.pkl")
