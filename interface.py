@@ -10,11 +10,13 @@ st.set_page_config(page_title="Employee Salary Prediction",page_icon="",layout="
 st.title("employee Salary Prediction App")
 st.markdown("predict wheatheran employee earn >50k or <50k based on input feature")
 st.sidebar.header("Input Employee Details")
-age = st.sidebar.selectbox("Age", list(range(18, 59)), index=12)
-education_num= st.sidebar.selectbox("Eduction level", list(range(0, 95)), index=12)
-gender=st.sidebar.selectbox("gender",list(range(0,1)),index=0)
-hours_per_week=st.sidebar.slider("Hours per week",1,86,40)
-workclass = st.sidebar.slider("Years of Experience:", 0, 40, 5)
+age = st.sidebar.number_input("Age", min_value=18, max_value=100, value=30)
+workclass = st.sidebar.selectbox("Workclass", ['Private', 'Self-emp-not-inc', 'Self-emp-inc', 'Federal-gov', 'Local-gov', 'State-gov', 'Without-pay', 'Never-worked'])
+education_num = st.sidebar.number_input("Education Number (Years of education)", min_value=1, max_value=16, value=10)
+marital_status = st.sidebar.selectbox("Marital Status", ['Married-civ-spouse', 'Divorced', 'Never-married', 'Separated', 'Widowed'])
+occupation = st.sidebar.selectbox("Occupation", ['Tech-support', 'Craft-repair', 'Other-service', 'Sales', 'Exec-managerial', 'Prof-specialty', 'Handlers-cleaners', 'Machine-op-inspct', 'Adm-clerical', 'Farming-fishing', 'Transport-moving', 'Priv-house-serv', 'Protective-serv', 'Armed-Forces'])
+hours_per_week = st.sidebar.number_input("Hours per week", min_value=1, max_value=100, value=40)
+
 
 # Build input DataFrame (must match preprocessing of your training data)
 input_df = pd.DataFrame({
@@ -24,6 +26,25 @@ input_df = pd.DataFrame({
     'hours-per-week': [hours_per_week],
     'experience': [workclass]
 })
+def preprocess_input(age, workclass, education_num, marital_status, occupation, hours_per_week):
+    # For demonstration, let's convert categorical to simple numeric encoding.
+    # Replace this with your real preprocessing pipeline.
+
+    workclass_map = {k:i for i,k in enumerate(['Private', 'Self-emp-not-inc', 'Self-emp-inc', 'Federal-gov', 'Local-gov', 'State-gov', 'Without-pay', 'Never-worked'])}
+    marital_map = {k:i for i,k in enumerate(['Married-civ-spouse', 'Divorced', 'Never-married', 'Separated', 'Widowed'])}
+    occupation_map = {k:i for i,k in enumerate(['Tech-support', 'Craft-repair', 'Other-service', 'Sales', 'Exec-managerial', 'Prof-specialty', 'Handlers-cleaners', 'Machine-op-inspct', 'Adm-clerical', 'Farming-fishing', 'Transport-moving', 'Priv-house-serv', 'Protective-serv', 'Armed-Forces'])}
+
+    processed = np.array([
+        age,
+        workclass_map[workclass],
+        education_num,
+        marital_map[marital_status],
+        occupation_map[occupation],
+        hours_per_week
+    ]).reshape(1, -1)
+
+    return processed
+input_df=preprocess_input(age, workclass, education_num, marital_status, occupation, hours_per_week)
 st.write("## Input Data")
 st.write(input_df)
 
