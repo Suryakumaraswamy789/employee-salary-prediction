@@ -14,8 +14,6 @@ age = st.sidebar.number_input("Age", 18, 100, 30)
 workclass = st.sidebar.selectbox("Workclass", ['Private', 'Self-emp-not-inc', 'Self-emp-inc', 'Federal-gov', 
                                        'Local-gov', 'State-gov', 'Without-pay', 'Never-worked'])
 fnlwgt = st.sidebar.number_input("Fnlwgt", 10000, 1000000, 50000)
-education = st.sidebar.selectbox("Education", ['Bachelors', 'HS-grad', '11th', 'Masters', '9th', 'Some-college', 
-                                       'Assoc-acdm', 'Assoc-voc', 'Doctorate', '5th-6th', '10th', '1st-4th', 'Preschool'])
 education_num = st.sidebar.number_input("Educational-num", 1, 16, 10)
 marital_status = st.sidebar.selectbox("Marital Status", ['Married-civ-spouse', 'Divorced', 'Never-married', 
                                                  'Separated', 'Widowed', 'Married-spouse-absent'])
@@ -35,8 +33,6 @@ native_country = st.sidebar.selectbox("Native Country", ['United-States', 'India
 def encode_input_df():
     workclass_map = {k: i for i, k in enumerate(['Private', 'Self-emp-not-inc', 'Self-emp-inc', 'Federal-gov', 
                                                  'Local-gov', 'State-gov', 'Without-pay', 'Never-worked'])}
-    education_map = {k: i for i, k in enumerate(['Bachelors', 'HS-grad', '11th', 'Masters', '9th', 'Some-college', 
-                                                 'Assoc-acdm', 'Assoc-voc', 'Doctorate', '5th-6th', '10th', '1st-4th', 'Preschool'])}
     marital_map = {k: i for i, k in enumerate(['Married-civ-spouse', 'Divorced', 'Never-married', 
                                                'Separated', 'Widowed', 'Married-spouse-absent'])}
     occupation_map = {k: i for i, k in enumerate(['Tech-support', 'Craft-repair', 'Other-service', 'Sales', 'Exec-managerial', 
