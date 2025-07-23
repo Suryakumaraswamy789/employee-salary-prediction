@@ -22,7 +22,8 @@ hours_per_week = st.sidebar.number_input("Hours per week", min_value=1, max_valu
 input_df = pd.DataFrame({
     'age': [age],
     'educational-num': [education_num],
-    'occupation': [gender],
+    'occupation': [occupation],
+    'gender':[gender],
     'hours-per-week': [hours_per_week],
     'experience': [workclass]
 })
