@@ -31,8 +31,8 @@ hours_per_week = st.sidebar.number_input("Hours per Week", 1, 100, 40)
 native_country = st.sidebar.selectbox("Native Country", ['United-States', 'India', 'Mexico', 'Philippines', 'Germany', 
                                                  'Canada', 'England', 'China', 'Cuba', 'Iran', 'Other'])
 
-# Encode categorical variables simply (use same mapping as used during training)
-def encode_input():
+# Encode categorical variables simply (use same mapping as used during training)                                              'Canada', 'England', 'China', 'Cuba', 'Iran', 'Other'])}
+def encode_input_df():
     workclass_map = {k: i for i, k in enumerate(['Private', 'Self-emp-not-inc', 'Self-emp-inc', 'Federal-gov', 
                                                  'Local-gov', 'State-gov', 'Without-pay', 'Never-worked'])}
     education_map = {k: i for i, k in enumerate(['Bachelors', 'HS-grad', '11th', 'Masters', '9th', 'Some-college', 
@@ -48,25 +48,27 @@ def encode_input():
     country_map = {k: i for i, k in enumerate(['United-States', 'India', 'Mexico', 'Philippines', 'Germany', 
                                                'Canada', 'England', 'China', 'Cuba', 'Iran', 'Other'])}
 
-    return np.array([
-        age,
-        workclass_map[workclass],
-        fnlwgt,
-        education_map[education],
-        education_num,
-        marital_map[marital_status],
-        occupation_map[occupation],
-        relationship_map[relationship],
-        race_map[race],
-        gender_map[gender],
-        capital_gain,
-        capital_loss,
-        hours_per_week,
-        country_map[native_country]
-    ]).reshape(1, -1)
+    data = {
+        'age': [age],
+        'workclass': [workclass_map[workclass]],
+        'fnlwgt': [fnlwgt],
+        'education': [education_map[education]],
+        'educational-num': [education_num],
+        'marital-status': [marital_map[marital_status]],
+        'occupation': [occupation_map[occupation]],
+        'relationship': [relationship_map[relationship]],
+        'race': [race_map[race]],
+        'gender': [gender_map[gender]],
+        'capital-gain': [capital_gain],
+        'capital-loss': [capital_loss],
+        'hours-per-week': [hours_per_week],
+        'native-country': [country_map[native_country]]
+    }
+
+    return pd.DataFrame(data)
 
 
-input_df = encode_input()
+input_df = encode_input_df()
 st.write("## Input Data")
 st.write(input_df)
 
