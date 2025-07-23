@@ -16,15 +16,11 @@ education_num = st.sidebar.number_input("Education Number (Years of education)",
 marital_status = st.sidebar.selectbox("Marital Status", ['Married-civ-spouse', 'Divorced', 'Never-married', 'Separated', 'Widowed'])
 occupation = st.sidebar.selectbox("Occupation", ['Tech-support', 'Craft-repair', 'Other-service', 'Sales', 'Exec-managerial', 'Prof-specialty', 'Handlers-cleaners', 'Machine-op-inspct', 'Adm-clerical', 'Farming-fishing', 'Transport-moving', 'Priv-house-serv', 'Protective-serv', 'Armed-Forces'])
 hours_per_week = st.sidebar.number_input("Hours per week", min_value=1, max_value=100, value=40)
-gender=st.sidebar.number_input("gender",min_value=1, max_value=0, value=1)
-
-
 # Build input DataFrame (must match preprocessing of your training data)
 input_df = pd.DataFrame({
     'age': [age],
     'educational-num': [education_num],
     'occupation': [occupation],
-    'gender':[gender],
     'hours-per-week': [hours_per_week],
     'experience': [workclass]
 })
