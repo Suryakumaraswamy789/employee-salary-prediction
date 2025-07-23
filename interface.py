@@ -48,7 +48,6 @@ def encode_input_df():
         'age': [age],
         'workclass': [workclass_map[workclass]],
         'fnlwgt': [fnlwgt],
-        'education': [education_map[education]],
         'educational-num': [education_num],
         'marital-status': [marital_map[marital_status]],
         'occupation': [occupation_map[occupation]],
