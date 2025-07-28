@@ -5,7 +5,7 @@ import cloudpickle
 # Load model and encoders
 with open('salary_model.pkl','rb') as f:
     model =cloudpickle.load(f)
-workclass_encoder = joblib.load("workclass_encoder.pkl")
+workclass_encoder = joblib.load("models/workclass_encoder.pkl")
 marital_encoder = joblib.load("marital_encoder.pkl")
 occupation_encoder = joblib.load("occupation_encoder.pkl")
 relationship_encoder = joblib.load("relationship_encoder.pkl")
