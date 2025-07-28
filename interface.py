@@ -1,9 +1,10 @@
 import streamlit as st
 import pandas as pd
 import joblib
-
+import cloudpickle
 # Load model and encoders
-model = joblib.load("salary_model.pkl")
+with open('salary_model.pkl','rb') as f:
+    model =cloudpickle.load(f)
 workclass_encoder = joblib.load("workclass_encoder.pkl")
 marital_encoder = joblib.load("marital_encoder.pkl")
 occupation_encoder = joblib.load("occupation_encoder.pkl")
