@@ -3,7 +3,13 @@ import pandas as pd
 import joblib
 
 # Load model pipeline
-model = joblib.load("salary_model.pkl")
+#model = joblib.load("salary_model.pkl")
+import cloudpickle
+
+# Load trained model
+with open('salary_model.pkl', 'rb') as f:
+    model = cloudpickle.load(f)
+
 
 # Streamlit config
 st.set_page_config(page_title="Employee Salary Prediction", page_icon="🧑‍💼", layout="centered")
