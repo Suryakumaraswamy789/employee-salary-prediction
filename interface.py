@@ -3,23 +3,28 @@ import streamlit as st
 import pandas as pd
 import joblib
 import cloudpickle
-with open('salary_model.pkl','rb') as f:
-    model =cloudpickle.load(f)
 
-st.set_page_config(page_title="Employee Salary Prediction",page_icon="",layout="centered")
-st.title("employee Salary Prediction App")
-st.markdown("predict wheatheran employee earn >50k or <50k based on input feature")
+# Load trained model
+with open('salary_model.pkl', 'rb') as f:
+    model = cloudpickle.load(f)
+
+# Set Streamlit page config
+st.set_page_config(page_title="Employee Salary Prediction", page_icon="🧑‍💼", layout="centered")
+st.title("Employee Salary Prediction App")
+st.markdown("Predict whether an employee earns *>50K* or *≤50K* based on input features.")
+
+# Sidebar inputs
 st.sidebar.header("Input Employee Details")
 age = st.sidebar.number_input("Age", 18, 100, 30)
 workclass = st.sidebar.selectbox("Workclass", ['Private', 'Self-emp-not-inc', 'Self-emp-inc', 'Federal-gov', 
-                                       'Local-gov', 'State-gov', 'Without-pay', 'Never-worked'])
+                                                'Local-gov', 'State-gov', 'Without-pay', 'Never-worked'])
 fnlwgt = st.sidebar.number_input("Fnlwgt", 10000, 1000000, 50000)
-education_num = st.sidebar.number_input("Educational-num", 1, 16, 10)
+education_num = st.sidebar.number_input("Education Num", 1, 16, 10)
 marital_status = st.sidebar.selectbox("Marital Status", ['Married-civ-spouse', 'Divorced', 'Never-married', 
-                                                 'Separated', 'Widowed', 'Married-spouse-absent'])
+                                                         'Separated', 'Widowed', 'Married-spouse-absent'])
 occupation = st.sidebar.selectbox("Occupation", ['Tech-support', 'Craft-repair', 'Other-service', 'Sales', 'Exec-managerial', 
-                                         'Prof-specialty', 'Handlers-cleaners', 'Machine-op-inspct', 'Adm-clerical', 
-                                         'Farming-fishing', 'Transport-moving', 'Priv-house-serv', 'Protective-serv', 'Armed-Forces'])
+                                                  'Prof-specialty', 'Handlers-cleaners', 'Machine-op-inspct', 'Adm-clerical', 
+                                                  'Farming-fishing', 'Transport-moving', 'Priv-house-serv', 'Protective-serv', 'Armed-Forces'])
 relationship = st.sidebar.selectbox("Relationship", ['Wife', 'Own-child', 'Husband', 'Not-in-family', 'Other-relative', 'Unmarried'])
 race = st.sidebar.selectbox("Race", ['White', 'Black', 'Asian-Pac-Islander', 'Amer-Indian-Eskimo', 'Other'])
 gender = st.sidebar.selectbox("Gender", ['Male', 'Female'])
@@ -27,9 +32,9 @@ capital_gain = st.sidebar.number_input("Capital Gain", 0, 100000, 0)
 capital_loss = st.sidebar.number_input("Capital Loss", 0, 100000, 0)
 hours_per_week = st.sidebar.number_input("Hours per Week", 1, 100, 40)
 native_country = st.sidebar.selectbox("Native Country", ['United-States', 'India', 'Mexico', 'Philippines', 'Germany', 
-                                                 'Canada', 'England', 'China', 'Cuba', 'Iran', 'Other'])
+                                                         'Canada', 'England', 'China', 'Cuba', 'Iran', 'Other'])
 
-# Encode categorical variables simply (use same mapping as used during training)                                              'Canada', 'England', 'China', 'Cuba', 'Iran', 'Other'])}
+# Encode inputs
 def encode_input_df():
     workclass_map = {k: i for i, k in enumerate(['Private', 'Self-emp-not-inc', 'Self-emp-inc', 'Federal-gov', 
                                                  'Local-gov', 'State-gov', 'Without-pay', 'Never-worked'])}
@@ -48,47 +53,58 @@ def encode_input_df():
         'age': [age],
         'workclass': [workclass_map[workclass]],
         'fnlwgt': [fnlwgt],
-        'educational-num': [education_num],
-        'marital-status': [marital_map[marital_status]],
+        'education_num': [education_num],
+        'marital_status': [marital_map[marital_status]],
         'occupation': [occupation_map[occupation]],
         'relationship': [relationship_map[relationship]],
         'race': [race_map[race]],
         'gender': [gender_map[gender]],
-        'capital-gain': [capital_gain],
-        'capital-loss': [capital_loss],
-        'hours-per-week': [hours_per_week],
-        'native-country': [country_map[native_country]]
+        'capital_gain': [capital_gain],
+        'capital_loss': [capital_loss],
+        'hours_per_week': [hours_per_week],
+        'native_country': [country_map[native_country]]
     }
 
     return pd.DataFrame(data)
 
-
+# Create input DataFrame
 input_df = encode_input_df()
+
+# Show input data
 st.write("## Input Data")
 st.write(input_df)
 
+# Prediction label map
+label_map = {0: "≤50K", 1: ">50K"}
+
 # Predict button
 if st.button("Predict Salary Class"):
-    prediction = model.predict(input_df)
-    st.success(f'Prediction: {prediction[0]}')
+    try:
+        st.write("Predicting based on input features...")
+        prediction = model.predict(input_df)
+        st.success(f"Prediction: {label_map[prediction[0]]}")
+    except Exception as e:
+        st.error(f"Prediction failed. Error: {str(e)}")
 
 # Batch prediction
 st.markdown("### Batch Prediction")
-st.markdown("Upload a CSV file for batch prediction:")
-uploaded_file = st.file_uploader("Upload a CSV file for batch prediction", type=['csv'])
+st.markdown("Upload a CSV file with encoded values for batch prediction:")
+
+uploaded_file = st.file_uploader("Upload CSV", type=['csv'])
 
 if uploaded_file is not None:
-    batch_data = pd.read_csv(uploaded_file)
-    st.write("Uploaded data preview:")
-    st.write(batch_data)
-    
-    batch_preds = model.predict(batch_data)
-    batch_preds = [str(pred) for pred in batch_preds]
-    st.write("Predictions:")
-    st.write(batch_preds)
-    # Batch predictions as downloadable CSV
-    batch_preds_df = pd.DataFrame(batch_preds, columns=['Predicted Salary Class'])
-    st.write(batch_preds_df)
+    try:
+        batch_data = pd.read_csv(uploaded_file)
+        st.write("Uploaded data preview:")
+        st.write(batch_data)
 
-    csv = batch_preds_df.to_csv(index=False).encode('utf-8')
-    st.download_button('Download Predictions CSV', csv, file_name='predicted_classes.csv', mime='text/csv')
+        batch_preds = model.predict(batch_data)
+        batch_preds_df = pd.DataFrame({'Predicted Salary Class': [label_map[p] for p in batch_preds]})
+        st.write("Predictions:")
+        st.write(batch_preds_df)
+
+        # Download predictions
+        csv = batch_preds_df.to_csv(index=False).encode('utf-8')
+        st.download_button('Download Predictions CSV', csv, file_name='predicted_classes.csv', mime='text/csv')
+    except Exception as e:
+        st.error(f"Batch prediction failed. Error: {str(e)}")
