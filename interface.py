@@ -7,7 +7,7 @@ import joblib
 import cloudpickle
 
 # Load trained model
-with open('salary_model.pkl', 'rb') as f:
+with open('best_model.pkl', 'rb') as f:
     model = cloudpickle.load(f)
 
 
