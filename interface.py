@@ -3,7 +3,7 @@ import pandas as pd
 import joblib
 
 # Load model pipeline
-#model = joblib.load("salary_model.pkl")
+#model = joblib.load("best_model.pkl")
 import cloudpickle
 
 # Load trained model
